@@ -65,17 +65,11 @@
             position: relative;
         }
         
-        #mannequin-placeholder {
+        #mannequin-placeholder, .mannequin-svg {
             max-height: 60rem;
             width: 45rem; 
         }
         
-        .mannequin-svg {
-            max-height: 60rem;
-            width: 45rem; 
-        }
-
-        /* Estilo padrão para os anéis/linhas de medida */
         .mannequin-svg g[id^="svg-"] path,
         .mannequin-svg g[id^="svg-"] line,
         .mannequin-svg g[id^="svg-"] ellipse {
@@ -84,8 +78,6 @@
             stroke-width: 4px;
         }
 
-        /* --- ALTERAÇÃO 1: Estilo para a base do manequim --- */
-        /* Define a cor de preenchimento e traço para as camadas base */
         .mannequin-svg #Base--D path,
         .mannequin-svg #Base--A path {
             stroke: #CCCCCC;
@@ -156,9 +148,13 @@
             width: 3.4375rem; height: 3.4375rem;
             display: flex; justify-content: center; align-items: center;
             cursor: pointer;
+            transition: background-color 0.2s ease;
         }
         .sex-btn img {
             width: 1.75rem; height: 1.75rem;
+        }
+        .sex-btn.selected {
+            background-color: #666;
         }
 
         .size-area {
@@ -181,9 +177,13 @@
             justify-content: center;
             align-items: center;
             cursor: pointer;
+            transition: background-color 0.2s ease;
         }
         .size-btn img {
             width: 1.75rem; height: 1.75rem;
+        }
+        .size-btn.selected {
+            background-color: #666;
         }
 
         .info-text {
@@ -268,6 +268,7 @@
             opacity: 1;
         }
         
+        /* --- COORDENADAS UNIFICADAS --- */
         #neck-point { top: -1.5%; left: 26.75%; }
         #shoulders-point { top: 23.5%; left: 20.5%; }
         #bust-point { top: 32.25%; left: 20.5%; }
@@ -284,13 +285,12 @@
         #calf-point { top: 79%; left: 69.75%; }
         #ankle-point { top: 88%; left: 69.75%; }
 
-        /* --- ALTERAÇÃO 2: Efeito de destaque modificado --- */
         .highlighted path,
         .highlighted line,
         .highlighted circle,
         .highlighted ellipse,
         .highlighted rect {
-            stroke-width: 6px !important; /* Apenas aumenta a espessura */
+            stroke-width: 6px !important;
             stroke: #f177c8 !important;
         }
     </style>
@@ -318,10 +318,10 @@
                     <div class="sex-group">
                         <span class="sex-label">Sexo</span>
                         <div class="sex-options">
-                            <button type="button" class="sex-btn" aria-label="feminino">
+                            <button type="button" class="sex-btn" id="sex-btn-female" aria-label="feminino">
                                 <img src="images/female.svg" alt="Símbolo Feminino">
                             </button>
-                            <button type="button" class="sex-btn" aria-label="masculino">
+                            <button type="button" class="sex-btn" id="sex-btn-male" aria-label="masculino">
                                 <img src="images/male.svg" alt="Símbolo Masculino">
                             </button>
                         </div>
@@ -354,21 +354,21 @@
             <div id="mannequin-placeholder"></div>
             
             <div class="measurement-points-container">
-                <div id="wrist-point" class="measurement-point" data-svg-target="svg-wrist"><div class="input-with-suffix"><input type="text" class="measurement-input text-center" placeholder="Pulso (cm)" inputmode="decimal" data-decimals="2"></div></div>
-                <div id="forearm-point" class="measurement-point" data-svg-target="svg-forearm"><div class="input-with-suffix"><input type="text" class="measurement-input text-center" placeholder="Antebraço (cm)" inputmode="decimal" data-decimals="2"></div></div>
-                <div id="brachial-point" class="measurement-point" data-svg-target="svg-brachial"><div class="input-with-suffix"><input type="text" class="measurement-input text-center" placeholder="Braquial (cm)" inputmode="decimal" data-decimals="2"></div></div>
-                <div id="arm-point" class="measurement-point" data-svg-target="svg-arm"><div class="input-with-suffix"><input type="text" class="measurement-input text-center" placeholder="Braço (cm)" inputmode="decimal" data-decimals="2"></div></div>
-                <div id="shoulders-point" class="measurement-point" data-svg-target="svg-shoulders"><div class="input-with-suffix"><input type="text" class="measurement-input text-center" placeholder="Ombros (cm)" inputmode="decimal" data-decimals="2"></div></div>
-                <div id="neck-point" class="measurement-point" data-svg-target="svg-neck"><div class="input-with-suffix"><input type="text" class="measurement-input text-center" placeholder="Pescoço (cm)" inputmode="decimal" data-decimals="2"></div></div>
-                <div id="bust-point" class="measurement-point" data-svg-target="svg-bust"><div class="input-with-suffix"><input type="text" class="measurement-input text-center" placeholder="Busto (cm)" inputmode="decimal" data-decimals="2"></div></div>
-                <div id="waist-point" class="measurement-point" data-svg-target="svg-waist"><div class="input-with-suffix"><input type="text" class="measurement-input text-center" placeholder="Cintura (cm)" inputmode="decimal" data-decimals="2"></div></div>
-                <div id="hip-point" class="measurement-point" data-svg-target="svg-hip"><div class="input-with-suffix"><input type="text" class="measurement-input text-center" placeholder="Quadril (cm)" inputmode="decimal" data-decimals="2"></div></div>
-                <div id="upper-leg-point" class="measurement-point" data-svg-target="svg-upper-leg"><div class="input-with-suffix"><input type="text" class="measurement-input text-center" placeholder="Perna Sup. (cm)" inputmode="decimal" data-decimals="2"></div></div>
-                <div id="lower-leg-point" class="measurement-point" data-svg-target="svg-lower-leg"><div class="input-with-suffix"><input type="text" class="measurement-input text-center" placeholder="Perna Inf. (cm)" inputmode="decimal" data-decimals="2"></div></div>
-                <div id="calf-point" class="measurement-point" data-svg-target="svg-calf"><div class="input-with-suffix"><input type="text" class="measurement-input text-center" placeholder="Panturrilha (cm)" inputmode="decimal" data-decimals="2"></div></div>
-                <div id="ankle-point" class="measurement-point" data-svg-target="svg-ankle"><div class="input-with-suffix"><input type="text" class="measurement-input text-center" placeholder="Tornozelo (cm)" inputmode="decimal" data-decimals="2"></div></div>
-                <div id="leg-point" class="measurement-point" data-svg-target="svg-leg"><div class="input-with-suffix"><input type="text" class="measurement-input text-center" placeholder="Perna (cm)" inputmode="decimal" data-decimals="2"></div></div>
-                <div id="torso-point" class="measurement-point" data-svg-target="svg-torso"><div class="input-with-suffix"><input type="text" class="measurement-input text-center" placeholder="Torso (cm)" inputmode="decimal" data-decimals="2"></div></div>
+                <div id="wrist-point" class="measurement-point" data-svg-target="svg-wrist"><div class="input-with-suffix"><input type="text" id="input-wrist" class="measurement-input text-center" placeholder="Pulso (cm)" inputmode="decimal" data-decimals="2"></div></div>
+                <div id="forearm-point" class="measurement-point" data-svg-target="svg-forearm"><div class="input-with-suffix"><input type="text" id="input-forearm" class="measurement-input text-center" placeholder="Antebraço (cm)" inputmode="decimal" data-decimals="2"></div></div>
+                <div id="brachial-point" class="measurement-point" data-svg-target="svg-brachial"><div class="input-with-suffix"><input type="text" id="input-brachial" class="measurement-input text-center" placeholder="Braquial (cm)" inputmode="decimal" data-decimals="2"></div></div>
+                <div id="arm-point" class="measurement-point" data-svg-target="svg-arm"><div class="input-with-suffix"><input type="text" id="input-arm" class="measurement-input text-center" placeholder="Braço (cm)" inputmode="decimal" data-decimals="2"></div></div>
+                <div id="shoulders-point" class="measurement-point" data-svg-target="svg-shoulders"><div class="input-with-suffix"><input type="text" id="input-shoulders" class="measurement-input text-center" placeholder="Ombros (cm)" inputmode="decimal" data-decimals="2"></div></div>
+                <div id="neck-point" class="measurement-point" data-svg-target="svg-neck"><div class="input-with-suffix"><input type="text" id="input-neck" class="measurement-input text-center" placeholder="Pescoço (cm)" inputmode="decimal" data-decimals="2"></div></div>
+                <div id="bust-point" class="measurement-point" data-svg-target="svg-bust"><div class="input-with-suffix"><input type="text" id="input-bust" class="measurement-input text-center" placeholder="Busto (cm)" inputmode="decimal" data-decimals="2"></div></div>
+                <div id="waist-point" class="measurement-point" data-svg-target="svg-waist"><div class="input-with-suffix"><input type="text" id="input-waist" class="measurement-input text-center" placeholder="Cintura (cm)" inputmode="decimal" data-decimals="2"></div></div>
+                <div id="hip-point" class="measurement-point" data-svg-target="svg-hip"><div class="input-with-suffix"><input type="text" id="input-hip" class="measurement-input text-center" placeholder="Quadril (cm)" inputmode="decimal" data-decimals="2"></div></div>
+                <div id="upper-leg-point" class="measurement-point" data-svg-target="svg-upper-leg"><div class="input-with-suffix"><input type="text" id="input-upper-leg" class="measurement-input text-center" placeholder="Perna Sup. (cm)" inputmode="decimal" data-decimals="2"></div></div>
+                <div id="lower-leg-point" class="measurement-point" data-svg-target="svg-lower-leg"><div class="input-with-suffix"><input type="text" id="input-lower-leg" class="measurement-input text-center" placeholder="Perna Inf. (cm)" inputmode="decimal" data-decimals="2"></div></div>
+                <div id="calf-point" class="measurement-point" data-svg-target="svg-calf"><div class="input-with-suffix"><input type="text" id="input-calf" class="measurement-input text-center" placeholder="Panturrilha (cm)" inputmode="decimal" data-decimals="2"></div></div>
+                <div id="ankle-point" class="measurement-point" data-svg-target="svg-ankle"><div class="input-with-suffix"><input type="text" id="input-ankle" class="measurement-input text-center" placeholder="Tornozelo (cm)" inputmode="decimal" data-decimals="2"></div></div>
+                <div id="leg-point" class="measurement-point" data-svg-target="svg-leg"><div class="input-with-suffix"><input type="text" id="input-leg" class="measurement-input text-center" placeholder="Perna (cm)" inputmode="decimal" data-decimals="2"></div></div>
+                <div id="torso-point" class="measurement-point" data-svg-target="svg-torso"><div class="input-with-suffix"><input type="text" id="input-torso" class="measurement-input text-center" placeholder="Torso (cm)" inputmode="decimal" data-decimals="2"></div></div>
             </div>
         </div>
     </div>
@@ -395,11 +395,26 @@
         drawLines();
 
         document.addEventListener('DOMContentLoaded', () => {
+            const PRESET_SIZES = {
+                sizePP: { 'input-wrist': 10, 'input-forearm': 10, 'input-brachial': 10, 'input-arm': 10, 'input-shoulders': 10, 'input-neck': 10, 'input-bust': 10, 'input-waist': 10, 'input-hip': 10, 'input-upper-leg': 10, 'input-lower-leg': 10, 'input-calf': 10, 'input-ankle': 10, 'input-leg': 10, 'input-torso': 10 },
+                sizeP:  { 'input-wrist': 20, 'input-forearm': 20, 'input-brachial': 20, 'input-arm': 20, 'input-shoulders': 20, 'input-neck': 20, 'input-bust': 20, 'input-waist': 20, 'input-hip': 20, 'input-upper-leg': 20, 'input-lower-leg': 20, 'input-calf': 20, 'input-ankle': 20, 'input-leg': 20, 'input-torso': 20 },
+                sizeM:  { 'input-wrist': 30, 'input-forearm': 30, 'input-brachial': 30, 'input-arm': 30, 'input-shoulders': 30, 'input-neck': 30, 'input-bust': 30, 'input-waist': 30, 'input-hip': 30, 'input-upper-leg': 30, 'input-lower-leg': 30, 'input-calf': 30, 'input-ankle': 30, 'input-leg': 30, 'input-torso': 30 },
+                sizeG:  { 'input-wrist': 40, 'input-forearm': 40, 'input-brachial': 40, 'input-arm': 40, 'input-shoulders': 40, 'input-neck': 40, 'input-bust': 40, 'input-waist': 40, 'input-hip': 40, 'input-upper-leg': 40, 'input-lower-leg': 40, 'input-calf': 40, 'input-ankle': 40, 'input-leg': 40, 'input-torso': 40 },
+                sizeGG: { 'input-wrist': 50, 'input-forearm': 50, 'input-brachial': 50, 'input-arm': 50, 'input-shoulders': 50, 'input-neck': 50, 'input-bust': 50, 'input-waist': 50, 'input-hip': 50, 'input-upper-leg': 50, 'input-lower-leg': 50, 'input-calf': 50, 'input-ankle': 50, 'input-leg': 50, 'input-torso': 50 },
+            };
+
             const formatOnInput = (inputEl, maxDigits, suffix) => { let rawValue = inputEl.value.replace(/\D/g, ''); if (rawValue.length > maxDigits) rawValue = rawValue.slice(-maxDigits); if (rawValue === '') { inputEl.value = ''; return; } const decimals = parseInt(inputEl.dataset.decimals, 10) || 0; let formattedValue; if (decimals > 0) { const paddedValue = rawValue.padStart(decimals + 1, '0'); const decimalIndex = paddedValue.length - decimals; const integerPart = parseInt(paddedValue.substring(0, decimalIndex), 10) || 0; const decimalPart = paddedValue.substring(decimalIndex); formattedValue = `${integerPart},${decimalPart}`; } else { formattedValue = `${parseInt(rawValue, 10) || 0}`; } inputEl.value = formattedValue + suffix; };
             const checkOnBlur = (inputEl, suffix) => { const numericValue = parseFloat(inputEl.value.replace(suffix, '').replace(',', '.')); if (isNaN(numericValue) || numericValue === 0) inputEl.value = ''; };
+            
             const alturaInput = document.getElementById('altura'); if (alturaInput) { alturaInput.addEventListener('input', () => formatOnInput(alturaInput, 3, ' m')); alturaInput.addEventListener('blur', () => checkOnBlur(alturaInput, ' m')); }
             const pesoInput = document.getElementById('peso'); if (pesoInput) { pesoInput.addEventListener('input', () => formatOnInput(pesoInput, 5, ' kg')); pesoInput.addEventListener('blur', () => checkOnBlur(pesoInput, ' kg')); }
-            const measurementInputs = document.querySelectorAll('.measurement-input'); measurementInputs.forEach(input => { input.addEventListener('input', () => formatOnInput(input, 5, ' (cm)')); input.addEventListener('blur', () => checkOnBlur(input, ' (cm)')); });
+            
+            const maleBtn = document.getElementById('sex-btn-male');
+            const femaleBtn = document.getElementById('sex-btn-female');
+            const pointsContainer = document.querySelector('.measurement-points-container');
+            const sizeButtons = document.querySelectorAll('.size-btn');
+            const customSizeBtn = document.getElementById('custom-size');
+            const mannequinInputs = document.querySelectorAll('.measurement-input');
 
             function setupSvgHighlighting() {
                 const measurementPoints = document.querySelectorAll('.measurement-point[data-svg-target]');
@@ -417,21 +432,76 @@
                 });
             }
 
-            fetch('images/tposemasc-full.svg')
-                .then(response => {
-                    if (!response.ok) throw new Error(`Erro na rede: ${response.statusText}`);
-                    return response.text();
-                })
-                .then(svgData => {
-                    const placeholder = document.getElementById('mannequin-placeholder');
-                    if (placeholder) {
-                        placeholder.innerHTML = svgData;
-                        const svgElement = placeholder.querySelector('svg');
-                        if (svgElement) svgElement.classList.add('mannequin-svg');
-                        setupSvgHighlighting();
+            function loadSvg(fileName) {
+                fetch(`images/${fileName}`)
+                    .then(response => { if (!response.ok) throw new Error(`Erro na rede: ${response.statusText}`); return response.text(); })
+                    .then(svgData => {
+                        const placeholder = document.getElementById('mannequin-placeholder');
+                        if (placeholder) {
+                            placeholder.innerHTML = svgData;
+                            const svgElement = placeholder.querySelector('svg');
+                            if (svgElement) svgElement.classList.add('mannequin-svg');
+                            setupSvgHighlighting();
+                        }
+                    })
+                    .catch(error => console.error(`Falha ao carregar ${fileName}:`, error));
+            }
+
+            function switchMannequin(gender) {
+                maleBtn.classList.remove('selected');
+                femaleBtn.classList.remove('selected');
+                
+                let fileName;
+                if (gender === 'male') {
+                    maleBtn.classList.add('selected');
+                    fileName = 'tposemasc-full.svg';
+                } else { // gender === 'female'
+                    femaleBtn.classList.add('selected');
+                    fileName = 'tposefem-full.svg';
+                }
+                loadSvg(fileName);
+            }
+
+            function selectSizeButton(buttonToSelect) {
+                sizeButtons.forEach(btn => btn.classList.remove('selected'));
+                if (buttonToSelect) {
+                    buttonToSelect.classList.add('selected');
+                }
+            }
+
+            sizeButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    selectSizeButton(btn);
+                    const sizeId = btn.id;
+                    const measurements = PRESET_SIZES[sizeId];
+                    
+                    if (measurements) {
+                        for (const inputId in measurements) {
+                            const inputElement = document.getElementById(inputId);
+                            if (inputElement) {
+                                const value = measurements[inputId];
+                                inputElement.value = value.toFixed(2).replace('.', ',') + ' (cm)';
+                            }
+                        }
                     }
-                })
-                .catch(error => console.error('Falha ao carregar o SVG do manequim:', error));
+                });
+            });
+
+            mannequinInputs.forEach(input => {
+                input.addEventListener('input', () => {
+                    selectSizeButton(customSizeBtn);
+                    formatOnInput(input, 5, ' (cm)');
+                });
+                input.addEventListener('blur', () => checkOnBlur(input, ' (cm)'));
+            });
+
+            // CORREÇÃO: Listeners dos botões de sexo
+            maleBtn.addEventListener('click', () => switchMannequin('male'));
+            femaleBtn.addEventListener('click', () => switchMannequin('female'));
+
+            // ESTADO INICIAL DA PÁGINA
+            switchMannequin('male');
+            selectSizeButton(customSizeBtn);
         });
     </script>
 </body>
