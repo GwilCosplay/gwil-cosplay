@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Informações Pessoais</title>
+    <title>Gwil Cosplay</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,7 +17,7 @@
         }
 
         body {
-            background-color: #000; /* Fallback caso o canvas não carregue */
+            background-color: #000;
             color: #fff;
             font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
             display: flex;
@@ -28,14 +28,13 @@
             overflow: hidden;
         }
 
-        /* Estilo para o canvas do background */
         #glcanvas {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1; /* Coloca o canvas atrás de todo o conteúdo */
+            z-index: -1;
             display: block;
         }
 
@@ -43,11 +42,11 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10rem;
+            gap: 5rem; 
             width: 100%;
-            max-width: 95rem;
+            max-width: 125rem;
             padding: 0 2rem;
-            position: relative; /* Garante que o conteúdo fique sobre o canvas */
+            position: relative; 
             z-index: 1;
         }
 
@@ -55,6 +54,7 @@
             width: 100%;
             max-width: 23.75rem;
             flex-shrink: 0;
+            margin-right: 15rem;
         }
 
         .mannequin-container {
@@ -62,15 +62,38 @@
             justify-content: center;
             align-items: center;
             flex-shrink: 0;
+            position: relative;
         }
-        .mannequin-container img {
-            max-height: 45rem;
-            width: auto;
-            object-fit: contain;
+        
+        #mannequin-placeholder {
+            max-height: 60rem;
+            width: 45rem; 
+        }
+        
+        .mannequin-svg {
+            max-height: 60rem;
+            width: 45rem; 
+        }
+
+        /* Estilo padrão para os anéis/linhas de medida */
+        .mannequin-svg g[id^="svg-"] path,
+        .mannequin-svg g[id^="svg-"] line,
+        .mannequin-svg g[id^="svg-"] ellipse {
+            fill: none;
+            stroke: #fff;
+            stroke-width: 4px;
+        }
+
+        /* --- ALTERAÇÃO 1: Estilo para a base do manequim --- */
+        /* Define a cor de preenchimento e traço para as camadas base */
+        .mannequin-svg #Base--D path,
+        .mannequin-svg #Base--A path {
+            stroke: #CCCCCC;
+            fill: #CCCCCC;
         }
 
         h1 {
-            font-size: 1.875rem;
+            font-size: 2rem;
             font-weight: 500;
             margin-bottom: 1.25rem;
         }
@@ -86,17 +109,16 @@
         }
         input[type="text"]:focus { outline: none; }
 
+        .text-left { text-align: left; }
+        .text-center { text-align: center; }
+        .text-right { text-align: right; }
+
         .input-with-suffix {
             display: flex; align-items: baseline;
             border-bottom: 0.0625rem solid #666;
             padding-bottom: 0;
         }
         .input-with-suffix:focus-within { border-bottom-color: #fff; }
-        .input-with-suffix .suffix {
-            font-size: 1.125rem;
-            color: #8e8e93;
-            margin-left: 0.3125rem;
-        }
 
         .form-group {
             border-bottom: 0.0625rem solid #666;
@@ -113,7 +135,7 @@
             gap: 1.25rem;
         }
         .height-weight-group .input-with-suffix {
-            width: 5.9375rem;
+            width: 8rem;
         }
 
         .sex-group {
@@ -130,7 +152,7 @@
         }
         .sex-btn {
             background-color: #3a3a3a; border: none;
-            border-radius: 0.75rem;
+            border-radius: 0.5rem;
             width: 3.4375rem; height: 3.4375rem;
             display: flex; justify-content: center; align-items: center;
             cursor: pointer;
@@ -151,12 +173,14 @@
         }
         .size-btn {
             background-color: #3a3a3a; border: none;
-            border-radius: 0.75rem;
+            border-radius: 0.5rem;
             width: 3.4375rem; height: 3.4375rem;
             color: #fff;
             font-size: 1.125rem;
-            font-weight: 500;
-            display: flex; justify-content: center; align-items: center; cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
         }
         .size-btn img {
             width: 1.75rem; height: 1.75rem;
@@ -174,15 +198,15 @@
         #text1 {
             margin-bottom: 1.875rem;
         }
-
+        
         .submit-btn {
-            background-color: #3a3a3a; border: none;
-            border-radius: 0.9375rem;
+            background-image: linear-gradient(to right, #b4247a, #6084bf);
+            border: none;
+            border-radius: 0.5rem;
             width: 100%;
             padding: 1.125rem;
-            color: #fff;
-            font-size: 1.125rem;
-            font-weight: 500;
+            color: #ffffff;
+            font-size: 1.5rem;
             cursor: pointer;
             margin-top: 2.1875rem;
         }
@@ -200,6 +224,75 @@
             overflow: visible;
         }
 
+        .logo {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            height: 6rem;
+            width: auto;
+            filter: invert(1);
+            z-index: 10;
+        }
+
+        .measurement-points-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; 
+            z-index: 2;
+        }
+
+        .measurement-point {
+            position: absolute;
+            pointer-events: auto; 
+        }
+
+        .measurement-point .input-with-suffix {
+            width: 9rem; 
+            border-bottom: none;
+        }
+        
+        .measurement-point input[type="text"] {
+            caret-color: transparent;
+            color: #8e8e93; 
+        }
+
+        .measurement-point input[type="text"]:focus {
+            color: #fff;
+        }
+        
+        .measurement-point input[type="text"]:focus::placeholder {
+            color: #fff;
+            opacity: 1;
+        }
+        
+        #neck-point { top: -1.5%; left: 26.75%; }
+        #shoulders-point { top: 23.5%; left: 20.5%; }
+        #bust-point { top: 32.25%; left: 20.5%; }
+        #brachial-point { top: -1.5%; left: -1.5%; }
+        #arm-point { top: 2.5%; left: 67.1%; }
+        #forearm-point { top: 23.5%; left: -1.5%; }
+        #wrist-point { top: 7.25%; left: -1.5%; }
+        #waist-point { top: 41.25%; left: 20.5%; }
+        #hip-point { top: 52.75%; left: 69.75%; }
+        #torso-point { top: 24.1%; left: 69.75%; }
+        #leg-point { top: 67%; left: 20.5%; }
+        #upper-leg-point { top: 61.5%; left: 69.75%; }
+        #lower-leg-point { top: 70.25%; left: 69.75%; }
+        #calf-point { top: 79%; left: 69.75%; }
+        #ankle-point { top: 88%; left: 69.75%; }
+
+        /* --- ALTERAÇÃO 2: Efeito de destaque modificado --- */
+        .highlighted path,
+        .highlighted line,
+        .highlighted circle,
+        .highlighted ellipse,
+        .highlighted rect {
+            stroke-width: 6px !important; /* Apenas aumenta a espessura */
+            stroke: #f177c8 !important;
+        }
     </style>
 </head>
 <body>
@@ -213,37 +306,31 @@
                 <div class="form-group">
                     <input type="text" id="nome" placeholder="Nome" />
                 </div>
-
                 <div class="measurements-row">
                     <div class="height-weight-group">
                         <div class="input-with-suffix">
-                            <input type="text" id="altura" placeholder="Altura" inputmode="decimal" data-decimals="2" />
-                            <span class="suffix">m</span>
+                            <input type="text" id="altura" class="text-left" placeholder="Altura (m)" inputmode="decimal" data-decimals="2" />
                         </div>
                         <div class="input-with-suffix">
-                            <input type="text" id="peso" placeholder="Peso" inputmode="decimal" data-decimals="2" />
-                            <span class="suffix">kg</span>
+                            <input type="text" id="peso" class="text-left" placeholder="Peso (kg)" inputmode="decimal" data-decimals="2" />
                         </div>
                     </div>
-
                     <div class="sex-group">
                         <span class="sex-label">Sexo</span>
                         <div class="sex-options">
                             <button type="button" class="sex-btn" aria-label="feminino">
-                                <img src="images/female.png" alt="Símbolo Feminino">
+                                <img src="images/female.svg" alt="Símbolo Feminino">
                             </button>
                             <button type="button" class="sex-btn" aria-label="masculino">
-                                <img src="images/male.png" alt="Símbolo Masculino">
+                                <img src="images/male.svg" alt="Símbolo Masculino">
                             </button>
                         </div>
                     </div>
                 </div>
-
                 <div class="size-area">
                     <div class="svg-wrapper" aria-hidden="true">
                         <svg class="overlay" xmlns="http://www.w3.org/2000/svg"></svg>
                     </div>
-
                     <div class="size-selector">
                         <button type="button" class="size-btn" id="sizePP">PP</button>
                         <button type="button" class="size-btn" id="sizeP">P</button>
@@ -251,337 +338,100 @@
                         <button type="button" class="size-btn" id="sizeG">G</button>
                         <button type="button" class="size-btn" id="sizeGG">GG</button>
                         <button type="button" class="size-btn" id="custom-size" aria-label="personalizado">
-                            <img src="images/customized.png" alt="Símbolo de Medidas Customizadas">
+                            <img src="images/customized.svg" alt="Símbolo de Medidas Customizadas">
                         </button>
                     </div>
-
                     <div class="info-text">
                         <p id="text1">Você pode selecionar um<br>tamanho predefinido</p>
                         <p id="text2">Ou informar suas medidas<br>exatas (recomendado)</p>
                     </div>
                 </div>
-
                 <button type="submit" class="submit-btn">Enviar suas medidas</button>
             </form>
         </div>
 
         <div class="mannequin-container">
-            <img src="images/tposefem-full.png" alt="Manequim 3D para referência de medidas">
+            <div id="mannequin-placeholder"></div>
+            
+            <div class="measurement-points-container">
+                <div id="wrist-point" class="measurement-point" data-svg-target="svg-wrist"><div class="input-with-suffix"><input type="text" class="measurement-input text-center" placeholder="Pulso (cm)" inputmode="decimal" data-decimals="2"></div></div>
+                <div id="forearm-point" class="measurement-point" data-svg-target="svg-forearm"><div class="input-with-suffix"><input type="text" class="measurement-input text-center" placeholder="Antebraço (cm)" inputmode="decimal" data-decimals="2"></div></div>
+                <div id="brachial-point" class="measurement-point" data-svg-target="svg-brachial"><div class="input-with-suffix"><input type="text" class="measurement-input text-center" placeholder="Braquial (cm)" inputmode="decimal" data-decimals="2"></div></div>
+                <div id="arm-point" class="measurement-point" data-svg-target="svg-arm"><div class="input-with-suffix"><input type="text" class="measurement-input text-center" placeholder="Braço (cm)" inputmode="decimal" data-decimals="2"></div></div>
+                <div id="shoulders-point" class="measurement-point" data-svg-target="svg-shoulders"><div class="input-with-suffix"><input type="text" class="measurement-input text-center" placeholder="Ombros (cm)" inputmode="decimal" data-decimals="2"></div></div>
+                <div id="neck-point" class="measurement-point" data-svg-target="svg-neck"><div class="input-with-suffix"><input type="text" class="measurement-input text-center" placeholder="Pescoço (cm)" inputmode="decimal" data-decimals="2"></div></div>
+                <div id="bust-point" class="measurement-point" data-svg-target="svg-bust"><div class="input-with-suffix"><input type="text" class="measurement-input text-center" placeholder="Busto (cm)" inputmode="decimal" data-decimals="2"></div></div>
+                <div id="waist-point" class="measurement-point" data-svg-target="svg-waist"><div class="input-with-suffix"><input type="text" class="measurement-input text-center" placeholder="Cintura (cm)" inputmode="decimal" data-decimals="2"></div></div>
+                <div id="hip-point" class="measurement-point" data-svg-target="svg-hip"><div class="input-with-suffix"><input type="text" class="measurement-input text-center" placeholder="Quadril (cm)" inputmode="decimal" data-decimals="2"></div></div>
+                <div id="upper-leg-point" class="measurement-point" data-svg-target="svg-upper-leg"><div class="input-with-suffix"><input type="text" class="measurement-input text-center" placeholder="Perna Sup. (cm)" inputmode="decimal" data-decimals="2"></div></div>
+                <div id="lower-leg-point" class="measurement-point" data-svg-target="svg-lower-leg"><div class="input-with-suffix"><input type="text" class="measurement-input text-center" placeholder="Perna Inf. (cm)" inputmode="decimal" data-decimals="2"></div></div>
+                <div id="calf-point" class="measurement-point" data-svg-target="svg-calf"><div class="input-with-suffix"><input type="text" class="measurement-input text-center" placeholder="Panturrilha (cm)" inputmode="decimal" data-decimals="2"></div></div>
+                <div id="ankle-point" class="measurement-point" data-svg-target="svg-ankle"><div class="input-with-suffix"><input type="text" class="measurement-input text-center" placeholder="Tornozelo (cm)" inputmode="decimal" data-decimals="2"></div></div>
+                <div id="leg-point" class="measurement-point" data-svg-target="svg-leg"><div class="input-with-suffix"><input type="text" class="measurement-input text-center" placeholder="Perna (cm)" inputmode="decimal" data-decimals="2"></div></div>
+                <div id="torso-point" class="measurement-point" data-svg-target="svg-torso"><div class="input-with-suffix"><input type="text" class="measurement-input text-center" placeholder="Torso (cm)" inputmode="decimal" data-decimals="2"></div></div>
+            </div>
         </div>
     </div>
 
+    <img src="images/gwil-cosplay.svg" alt="Logo G-Wil Cosplay" class="logo">
+
     <script>
-        // --- INÍCIO DO SCRIPT DO BACKGROUND HOLOGRÁFICO ---
-        const HOLO_PARAMS = {
-          scale: 0.94,
-          ax: 1.0,
-          ay: 1.0,
-          az: 3.0,
-          aw: 2.0,
-          bx: 2.0,
-          by: 1.0,
-          color1: '#ffffff',
-          color2: '#ff0099',
-          color3: '#00ff7b',
-          color4: '#7b00ff'
-        };
+        // --- SCRIPT DO BACKGROUND HOLOGRÁFICO (código omitido para brevidade) ---
+        const HOLO_PARAMS = { scale: 0.94, ax: 1.0, ay: 1.0, az: 3.0, aw: 2.0, bx: 2.0, by: 1.0, color1: '#0f4bff', color2: '#84b3ff', color3: '#d510fe', color4: '#3f0fff' };
+        const vsSource = `attribute vec2 a_position;varying vec2 vUv;void main() {vUv = a_position * 0.5 + 0.5;gl_Position = vec4(a_position, 0.0, 1.0);}`;
+        const fsSource = `precision highp float;varying vec2 vUv;uniform float u_time;uniform vec2 u_resolution;uniform float u_scale;uniform vec3 u_color1;uniform vec3 u_color2;uniform vec3 u_color3;uniform vec3 u_color4;uniform float u_ax;uniform float u_ay;uniform float u_az;uniform float u_aw;uniform float u_bx;uniform float u_by;float cheapNoise(vec3 stp) {vec3 p = stp;vec4 a = vec4(u_ax, u_ay, u_az, u_aw);return mix(sin(p.z + p.x * a.x + cos(p.x * a.x - p.z)) *cos(p.z + p.y * a.y + cos(p.y * a.x + p.z)),sin(1. + p.x * a.z + p.z + cos(p.y * a.w - p.z)) *cos(1. + p.y * a.w + p.z + cos(p.x * a.x + p.z)),.436);}void main() {vec2 aR = vec2(u_resolution.x/u_resolution.y, 1.);vec2 st = vUv * aR * u_scale;float S = sin(u_time * .005);float C = cos(u_time * .005);vec2 v1 = vec2(cheapNoise(vec3(st, 2.)), cheapNoise(vec3(st, 1.)));vec2 v2 = vec2(cheapNoise(vec3(st + u_bx * v1 + vec2(C * 1.7, S * 9.2), 0.15 * u_time)),cheapNoise(vec3(st + u_by * v1 + vec2(S * 8.3, C * 2.8), 0.126 * u_time)));float n = .5 + .5 * cheapNoise(vec3(st + v2, 0.));vec3 color = mix(u_color1, u_color2, clamp((n*n)*8.,0.0,1.0));color = mix(color, u_color3, clamp(length(v1),0.0,1.0));color = mix(color, u_color4, clamp(length(v2.x),0.0,1.0));color /= n*n + n * 7.;gl_FragColor = vec4(color,1.);}`;
+        function hexToRgbNormalized(hex) { const h = hex.replace('#',''); const bigint = parseInt(h.length === 3 ? h.split('').map(c=>c+c).join('') : h, 16); const r = (bigint >> 16) & 255; const g = (bigint >> 8) & 255; const b = bigint & 255; return [r/255, g/255, b/255]; }
+        function createShader(gl, type, source) { const shader = gl.createShader(type); gl.shaderSource(shader, source); gl.compileShader(shader); if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) { const msg = gl.getShaderInfoLog(shader); gl.deleteShader(shader); throw new Error('Shader compile error: ' + msg); } return shader; }
+        function createProgram(gl, vsSource, fsSource) { const vs = createShader(gl, gl.VERTEX_SHADER, vsSource); const fs = createShader(gl, gl.FRAGMENT_SHADER, fsSource); const program = gl.createProgram(); gl.attachShader(program, vs); gl.attachShader(program, fs); gl.linkProgram(program); if (!gl.getProgramParameter(program, gl.LINK_STATUS)) { const msg = gl.getProgramInfoLog(program); gl.deleteProgram(program); throw new Error('Program link error: ' + msg); } return program; }
+        const canvas = document.getElementById('glcanvas'); const gl = canvas.getContext('webgl', { antialias: true }); if (!gl) { canvas.style.display = 'none'; console.error('WebGL não suportado'); } else { const program = createProgram(gl, vsSource, fsSource); gl.useProgram(program); const posLoc = gl.getAttribLocation(program, 'a_position'); const timeLoc = gl.getUniformLocation(program, 'u_time'); const resLoc = gl.getUniformLocation(program, 'u_resolution'); const scaleLoc = gl.getUniformLocation(program, 'u_scale'); const axLoc = gl.getUniformLocation(program, 'u_ax'); const ayLoc = gl.getUniformLocation(program, 'u_ay'); const azLoc = gl.getUniformLocation(program, 'u_az'); const awLoc = gl.getUniformLocation(program, 'u_aw'); const bxLoc = gl.getUniformLocation(program, 'u_bx'); const byLoc = gl.getUniformLocation(program, 'u_by'); const c1Loc = gl.getUniformLocation(program, 'u_color1'); const c2Loc = gl.getUniformLocation(program, 'u_color2'); const c3Loc = gl.getUniformLocation(program, 'u_color3'); const c4Loc = gl.getUniformLocation(program, 'u_color4'); const buffer = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buffer); const vertices = new Float32Array([-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1]); gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW); gl.enableVertexAttribArray(posLoc); gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0); function resize() { const dpr = window.devicePixelRatio || 1; const width = Math.floor(canvas.clientWidth * dpr); const height = Math.floor(canvas.clientHeight * dpr); if (canvas.width !== width || canvas.height !== height) { canvas.width = width; canvas.height = height; gl.viewport(0,0,canvas.width,canvas.height); } } const color1 = hexToRgbNormalized(HOLO_PARAMS.color1); const color2 = hexToRgbNormalized(HOLO_PARAMS.color2); const color3 = hexToRgbNormalized(HOLO_PARAMS.color3); const color4 = hexToRgbNormalized(HOLO_PARAMS.color4); gl.uniform3fv(c1Loc, new Float32Array(color1)); gl.uniform3fv(c2Loc, new Float32Array(color2)); gl.uniform3fv(c3Loc, new Float32Array(color3)); gl.uniform3fv(c4Loc, new Float32Array(color4)); gl.uniform1f(scaleLoc, HOLO_PARAMS.scale); gl.uniform1f(axLoc, HOLO_PARAMS.ax); gl.uniform1f(ayLoc, HOLO_PARAMS.ay); gl.uniform1f(azLoc, HOLO_PARAMS.az); gl.uniform1f(awLoc, HOLO_PARAMS.aw); gl.uniform1f(bxLoc, HOLO_PARAMS.bx); gl.uniform1f(byLoc, HOLO_PARAMS.by); let start = Date.now(); function render() { resize(); const now = Date.now(); const t = (now - start); gl.uniform1f(timeLoc, t * 0.0025); gl.uniform2f(resLoc, canvas.width, canvas.height); gl.drawArrays(gl.TRIANGLES, 0, 6); requestAnimationFrame(render); } requestAnimationFrame(render); }
 
-        const vsSource = `
-        attribute vec2 a_position;
-        varying vec2 vUv;
-        void main() {
-          vUv = a_position * 0.5 + 0.5;
-          gl_Position = vec4(a_position, 0.0, 1.0);
-        }
-        `;
-
-        const fsSource = `
-        precision highp float;
-        varying vec2 vUv;
-        uniform float u_time;
-        uniform vec2 u_resolution;
-        uniform float u_scale;
-        uniform vec3 u_color1;
-        uniform vec3 u_color2;
-        uniform vec3 u_color3;
-        uniform vec3 u_color4;
-        uniform float u_ax;
-        uniform float u_ay;
-        uniform float u_az;
-        uniform float u_aw;
-        uniform float u_bx;
-        uniform float u_by;
-
-        float cheapNoise(vec3 stp) {
-          vec3 p = stp;
-          vec4 a = vec4(u_ax, u_ay, u_az, u_aw);
-          return mix(
-            sin(p.z + p.x * a.x + cos(p.x * a.x - p.z)) *
-            cos(p.z + p.y * a.y + cos(p.y * a.x + p.z)),
-            sin(1. + p.x * a.z + p.z + cos(p.y * a.w - p.z)) *
-            cos(1. + p.y * a.w + p.z + cos(p.x * a.x + p.z)),
-            .436
-          );
-        }
-
-        void main() {
-          vec2 aR = vec2(u_resolution.x/u_resolution.y, 1.);
-          vec2 st = vUv * aR * u_scale;
-          float S = sin(u_time * .005);
-          float C = cos(u_time * .005);
-          vec2 v1 = vec2(cheapNoise(vec3(st, 2.)), cheapNoise(vec3(st, 1.)));
-          vec2 v2 = vec2(
-            cheapNoise(vec3(st + u_bx * v1 + vec2(C * 1.7, S * 9.2), 0.15 * u_time)),
-            cheapNoise(vec3(st + u_by * v1 + vec2(S * 8.3, C * 2.8), 0.126 * u_time))
-          );
-          float n = .5 + .5 * cheapNoise(vec3(st + v2, 0.));
-          vec3 color = mix(u_color1, u_color2, clamp((n*n)*8.,0.0,1.0));
-          color = mix(color, u_color3, clamp(length(v1),0.0,1.0));
-          color = mix(color, u_color4, clamp(length(v2.x),0.0,1.0));
-          color /= n*n + n * 7.;
-          gl_FragColor = vec4(color,1.);
-        }
-        `;
-
-        function hexToRgbNormalized(hex) {
-          const h = hex.replace('#','');
-          const bigint = parseInt(h.length === 3 ? h.split('').map(c=>c+c).join('') : h, 16);
-          const r = (bigint >> 16) & 255;
-          const g = (bigint >> 8) & 255;
-          const b = bigint & 255;
-          return [r/255, g/255, b/255];
-        }
-
-        function createShader(gl, type, source) {
-          const shader = gl.createShader(type);
-          gl.shaderSource(shader, source);
-          gl.compileShader(shader);
-          if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-            const msg = gl.getShaderInfoLog(shader);
-            gl.deleteShader(shader);
-            throw new Error('Shader compile error: ' + msg);
-          }
-          return shader;
-        }
-
-        function createProgram(gl, vsSource, fsSource) {
-          const vs = createShader(gl, gl.VERTEX_SHADER, vsSource);
-          const fs = createShader(gl, gl.FRAGMENT_SHADER, fsSource);
-          const program = gl.createProgram();
-          gl.attachShader(program, vs);
-          gl.attachShader(program, fs);
-          gl.linkProgram(program);
-          if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-            const msg = gl.getProgramInfoLog(program);
-            gl.deleteProgram(program);
-            throw new Error('Program link error: ' + msg);
-          }
-          return program;
-        }
-
-        const canvas = document.getElementById('glcanvas');
-        const gl = canvas.getContext('webgl', { antialias: true });
-        if (!gl) {
-          // Esconde o canvas e usa o background preto do body
-          canvas.style.display = 'none';
-          console.error('WebGL não suportado');
-        } else {
-            const program = createProgram(gl, vsSource, fsSource);
-            gl.useProgram(program);
-
-            const posLoc = gl.getAttribLocation(program, 'a_position');
-            const timeLoc = gl.getUniformLocation(program, 'u_time');
-            const resLoc = gl.getUniformLocation(program, 'u_resolution');
-            const scaleLoc = gl.getUniformLocation(program, 'u_scale');
-            const axLoc = gl.getUniformLocation(program, 'u_ax');
-            const ayLoc = gl.getUniformLocation(program, 'u_ay');
-            const azLoc = gl.getUniformLocation(program, 'u_az');
-            const awLoc = gl.getUniformLocation(program, 'u_aw');
-            const bxLoc = gl.getUniformLocation(program, 'u_bx');
-            const byLoc = gl.getUniformLocation(program, 'u_by');
-            const c1Loc = gl.getUniformLocation(program, 'u_color1');
-            const c2Loc = gl.getUniformLocation(program, 'u_color2');
-            const c3Loc = gl.getUniformLocation(program, 'u_color3');
-            const c4Loc = gl.getUniformLocation(program, 'u_color4');
-
-            const buffer = gl.createBuffer();
-            gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-            const vertices = new Float32Array([
-              -1, -1,  1, -1, -1, 1,
-              -1,  1,  1, -1,  1, 1
-            ]);
-            gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
-            gl.enableVertexAttribArray(posLoc);
-            gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
-
-            function resize() {
-              const dpr = window.devicePixelRatio || 1;
-              const width = Math.floor(canvas.clientWidth * dpr);
-              const height = Math.floor(canvas.clientHeight * dpr);
-              if (canvas.width !== width || canvas.height !== height) {
-                canvas.width = width;
-                canvas.height = height;
-                gl.viewport(0,0,canvas.width,canvas.height);
-              }
-            }
-
-            const color1 = hexToRgbNormalized(HOLO_PARAMS.color1);
-            const color2 = hexToRgbNormalized(HOLO_PARAMS.color2);
-            const color3 = hexToRgbNormalized(HOLO_PARAMS.color3);
-            const color4 = hexToRgbNormalized(HOLO_PARAMS.color4);
-
-            gl.uniform3fv(c1Loc, new Float32Array(color1));
-            gl.uniform3fv(c2Loc, new Float32Array(color2));
-            gl.uniform3fv(c3Loc, new Float32Array(color3));
-            gl.uniform3fv(c4Loc, new Float32Array(color4));
-            gl.uniform1f(scaleLoc, HOLO_PARAMS.scale);
-            gl.uniform1f(axLoc, HOLO_PARAMS.ax);
-            gl.uniform1f(ayLoc, HOLO_PARAMS.ay);
-            gl.uniform1f(azLoc, HOLO_PARAMS.az);
-            gl.uniform1f(awLoc, HOLO_PARAMS.aw);
-            gl.uniform1f(bxLoc, HOLO_PARAMS.bx);
-            gl.uniform1f(byLoc, HOLO_PARAMS.by);
-
-            let start = Date.now();
-
-            function render() {
-              resize();
-              const now = Date.now();
-              const t = (now - start);
-              gl.uniform1f(timeLoc, t * 0.0025);
-              gl.uniform2f(resLoc, canvas.width, canvas.height);
-              gl.drawArrays(gl.TRIANGLES, 0, 6);
-              requestAnimationFrame(render);
-            }
-
-            requestAnimationFrame(render);
-        }
-        // --- FIM DO SCRIPT DO BACKGROUND HOLOGRÁFICO ---
-
-
-        // --- INÍCIO DO SCRIPT ORIGINAL DA PÁGINA ---
+        // --- SCRIPT DA PÁGINA ---
         function drawLines() {
-            const svg = document.querySelector("svg.overlay");
-            if (!svg) return;
-            svg.innerHTML = "";
-
-            const btnPP = document.getElementById("sizePP");
-            const btnGG = document.getElementById("sizeGG");
-            
-            const btnM = document.getElementById("sizeM");
-            const btnCustom = document.getElementById("custom-size");
-            const text1 = document.getElementById("text1");
-            const text2 = document.getElementById("text2");
-
-            if (!btnPP || !btnGG || !btnM || !btnCustom || !text1 || !text2) return;
-
-            const rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
-            
-            const strokeWidth = 0.05 * rem;
-
-            const svgRect = svg.getBoundingClientRect();
-            const rectPP = btnPP.getBoundingClientRect();
-            const rectGG = btnGG.getBoundingClientRect();
-            const rectM = btnM.getBoundingClientRect();
-            const rectCustom = btnCustom.getBoundingClientRect();
-            const rectT1 = text1.getBoundingClientRect();
-            const rectT2 = text2.getBoundingClientRect();
-
-            const toSvgX = (r) => r.left - svgRect.left + (r.width / 2);
-            const toSvgY = (r) => r.top - svgRect.top;
-
-            const buttonsY = toSvgY(rectPP) + rectPP.height + (1.5 * rem);
-
-            const mainLine = document.createElementNS("http://www.w3.org/2000/svg", "line");
-            const lineStartX = rectPP.left - svgRect.left;
-            const lineEndX = (rectGG.left - svgRect.left) + rectGG.width;
-            
-            mainLine.setAttribute("x1", lineStartX);
-            mainLine.setAttribute("y1", buttonsY);
-            mainLine.setAttribute("x2", lineEndX);
-            mainLine.setAttribute("y2", buttonsY);
-            mainLine.setAttribute("stroke", "white");
-            mainLine.setAttribute("stroke-width", strokeWidth);
-            svg.appendChild(mainLine);
-
-            const midX = toSvgX(rectM);
-            const text1Y = toSvgY(rectT1);
-            const vertical1 = document.createElementNS("http://www.w3.org/2000/svg", "line");
-            vertical1.setAttribute("x1", midX);
-            vertical1.setAttribute("y1", buttonsY);
-            vertical1.setAttribute("x2", midX);
-            vertical1.setAttribute("y2", text1Y - (0.5 * rem));
-            vertical1.setAttribute("stroke", "white");
-            vertical1.setAttribute("stroke-width", strokeWidth);
-            svg.appendChild(vertical1);
-
-            const customX = toSvgX(rectCustom);
-            const text2Y = toSvgY(rectT2) + (rectT2.height / 2);
-            const vertical2 = document.createElementNS("http://www.w3.org/2000/svg", "line");
-            vertical2.setAttribute("x1", customX);
-            vertical2.setAttribute("y1", buttonsY);
-            vertical2.setAttribute("x2", customX);
-            vertical2.setAttribute("y2", text2Y);
-            vertical2.setAttribute("stroke", "white");
-            vertical2.setAttribute("stroke-width", strokeWidth);
-            svg.appendChild(vertical2);
-
-            const text2StartX = toSvgX(rectT2) - (rectT2.width / 1.13);
-            const horizontal2 = document.createElementNS("http://www.w3.org/2000/svg", "line");
-            horizontal2.setAttribute("x1", customX);
-            horizontal2.setAttribute("y1", text2Y);
-            horizontal2.setAttribute("x2", text2StartX + rectT2.width);
-            horizontal2.setAttribute("y2", text2Y);
-            horizontal2.setAttribute("stroke", "white");
-            horizontal2.setAttribute("stroke-width", strokeWidth);
-            svg.appendChild(horizontal2);
+            const svg = document.querySelector("svg.overlay"); if (!svg) return; svg.innerHTML = ""; const btnPP = document.getElementById("sizePP"), btnGG = document.getElementById("sizeGG"), btnM = document.getElementById("sizeM"), btnCustom = document.getElementById("custom-size"), text1 = document.getElementById("text1"), text2 = document.getElementById("text2"); if (!btnPP || !btnGG || !btnM || !btnCustom || !text1 || !text2) return; const rem = parseFloat(getComputedStyle(document.documentElement).fontSize), strokeWidth = 0.025 * rem, svgRect = svg.getBoundingClientRect(), rectPP = btnPP.getBoundingClientRect(), rectGG = btnGG.getBoundingClientRect(), rectM = btnM.getBoundingClientRect(), rectCustom = btnCustom.getBoundingClientRect(), rectT1 = text1.getBoundingClientRect(), rectT2 = text2.getBoundingClientRect(); const toSvgX = (r) => r.left - svgRect.left + (r.width / 2), toSvgY = (r) => r.top - svgRect.top; const buttonsY = toSvgY(rectPP) + rectPP.height + (1.5 * rem), mainLine = document.createElementNS("http://www.w3.org/2000/svg", "line"), lineStartX = rectPP.left - svgRect.left, lineEndX = (rectGG.left - svgRect.left) + rectGG.width; mainLine.setAttribute("x1", lineStartX); mainLine.setAttribute("y1", buttonsY); mainLine.setAttribute("x2", lineEndX); mainLine.setAttribute("y2", buttonsY); mainLine.setAttribute("stroke", "white"); mainLine.setAttribute("stroke-width", strokeWidth); svg.appendChild(mainLine); const midX = toSvgX(rectM), text1Y = toSvgY(rectT1), vertical1 = document.createElementNS("http://www.w3.org/2000/svg", "line"); vertical1.setAttribute("x1", midX); vertical1.setAttribute("y1", buttonsY); vertical1.setAttribute("x2", midX); vertical1.setAttribute("y2", text1Y - (0.5 * rem)); vertical1.setAttribute("stroke", "white"); vertical1.setAttribute("stroke-width", strokeWidth); svg.appendChild(vertical1); const customX = toSvgX(rectCustom), text2Y = toSvgY(rectT2) + (rectT2.height / 2), vertical2 = document.createElementNS("http://www.w3.org/2000/svg", "line"); vertical2.setAttribute("x1", customX); vertical2.setAttribute("y1", buttonsY); vertical2.setAttribute("x2", customX); vertical2.setAttribute("y2", text2Y); vertical2.setAttribute("stroke", "white"); vertical2.setAttribute("stroke-width", strokeWidth); svg.appendChild(vertical2); const text2StartX = toSvgX(rectT2) - (rectT2.width / 1.13), horizontal2 = document.createElementNS("http://www.w3.org/2000/svg", "line"); horizontal2.setAttribute("x1", customX); horizontal2.setAttribute("y1", text2Y); horizontal2.setAttribute("x2", text2StartX + rectT2.width); horizontal2.setAttribute("y2", text2Y); horizontal2.setAttribute("stroke", "white"); horizontal2.setAttribute("stroke-width", strokeWidth); svg.appendChild(horizontal2);
         }
-
         let resizeTimer;
-        window.addEventListener("resize", () => {
-            clearTimeout(resizeTimer);
-            resizeTimer = setTimeout(drawLines, 100);
-        });
-        window.addEventListener("load", () => {
-            setTimeout(drawLines, 100);
-        });
+        window.addEventListener("resize", () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(drawLines, 100); });
+        window.addEventListener("load", () => { setTimeout(drawLines, 100); });
         drawLines();
 
         document.addEventListener('DOMContentLoaded', () => {
-            const formatOnInput = (inputEl, maxDigits) => {
-                let rawValue = inputEl.value.replace(/\D/g, '');
-                if (rawValue.length > maxDigits) {
-                    rawValue = rawValue.slice(-maxDigits);
-                }
-                if (rawValue === '') {
-                    inputEl.value = '';
-                    return;
-                }
-                const decimals = parseInt(inputEl.dataset.decimals, 10) || 0;
-                const paddedValue = rawValue.padStart(decimals + 1, '0');
-                const decimalIndex = paddedValue.length - decimals;
-                const integerPart = parseInt(paddedValue.substring(0, decimalIndex), 10) || 0;
-                const decimalPart = paddedValue.substring(decimalIndex);
-                inputEl.value = decimals > 0 ? `${integerPart},${decimalPart}` : `${integerPart}`;
-            };
+            const formatOnInput = (inputEl, maxDigits, suffix) => { let rawValue = inputEl.value.replace(/\D/g, ''); if (rawValue.length > maxDigits) rawValue = rawValue.slice(-maxDigits); if (rawValue === '') { inputEl.value = ''; return; } const decimals = parseInt(inputEl.dataset.decimals, 10) || 0; let formattedValue; if (decimals > 0) { const paddedValue = rawValue.padStart(decimals + 1, '0'); const decimalIndex = paddedValue.length - decimals; const integerPart = parseInt(paddedValue.substring(0, decimalIndex), 10) || 0; const decimalPart = paddedValue.substring(decimalIndex); formattedValue = `${integerPart},${decimalPart}`; } else { formattedValue = `${parseInt(rawValue, 10) || 0}`; } inputEl.value = formattedValue + suffix; };
+            const checkOnBlur = (inputEl, suffix) => { const numericValue = parseFloat(inputEl.value.replace(suffix, '').replace(',', '.')); if (isNaN(numericValue) || numericValue === 0) inputEl.value = ''; };
+            const alturaInput = document.getElementById('altura'); if (alturaInput) { alturaInput.addEventListener('input', () => formatOnInput(alturaInput, 3, ' m')); alturaInput.addEventListener('blur', () => checkOnBlur(alturaInput, ' m')); }
+            const pesoInput = document.getElementById('peso'); if (pesoInput) { pesoInput.addEventListener('input', () => formatOnInput(pesoInput, 5, ' kg')); pesoInput.addEventListener('blur', () => checkOnBlur(pesoInput, ' kg')); }
+            const measurementInputs = document.querySelectorAll('.measurement-input'); measurementInputs.forEach(input => { input.addEventListener('input', () => formatOnInput(input, 5, ' (cm)')); input.addEventListener('blur', () => checkOnBlur(input, ' (cm)')); });
 
-            const checkOnBlur = (inputEl) => {
-                if (inputEl.value === '0,00' || inputEl.value === '0,0' || inputEl.value === '0') {
-                    inputEl.value = '';
-                }
-            };
-
-            const alturaInput = document.getElementById('altura');
-            const pesoInput = document.getElementById('peso');
-
-            if (alturaInput) {
-                alturaInput.addEventListener('input', () => formatOnInput(alturaInput, 3));
-                alturaInput.addEventListener('blur', () => checkOnBlur(alturaInput));
+            function setupSvgHighlighting() {
+                const measurementPoints = document.querySelectorAll('.measurement-point[data-svg-target]');
+                measurementPoints.forEach(point => {
+                    const input = point.querySelector('input');
+                    const svgTargetId = point.dataset.svgTarget;
+                    if (!input || !svgTargetId) return;
+                    const svgElement = document.getElementById(svgTargetId);
+                    if (svgElement) {
+                        input.addEventListener('focus', () => svgElement.classList.add('highlighted'));
+                        input.addEventListener('blur', () => svgElement.classList.remove('highlighted'));
+                    } else {
+                        console.warn(`Elemento SVG com ID "${svgTargetId}" não foi encontrado.`);
+                    }
+                });
             }
-            if (pesoInput) {
-                pesoInput.addEventListener('input', () => formatOnInput(pesoInput, 5));
-                pesoInput.addEventListener('blur', () => checkOnBlur(pesoInput));
-            }
+
+            fetch('images/tposemasc-full.svg')
+                .then(response => {
+                    if (!response.ok) throw new Error(`Erro na rede: ${response.statusText}`);
+                    return response.text();
+                })
+                .then(svgData => {
+                    const placeholder = document.getElementById('mannequin-placeholder');
+                    if (placeholder) {
+                        placeholder.innerHTML = svgData;
+                        const svgElement = placeholder.querySelector('svg');
+                        if (svgElement) svgElement.classList.add('mannequin-svg');
+                        setupSvgHighlighting();
+                    }
+                })
+                .catch(error => console.error('Falha ao carregar o SVG do manequim:', error));
         });
     </script>
 </body>
